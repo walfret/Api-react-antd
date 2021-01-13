@@ -1,0 +1,50 @@
+.container-update {
+  background: white;
+  border-radius: 5px;
+  display: grid;
+  grid-template: 60px 1fr 1fr 1fr 1fr / 150px 150px 300px 200px;
+}
+
+.button {
+  color: white;
+  padding-left: 5px;
+}
+
+.button:hover {
+  color: white;
+}
+
+.container-btn {
+  grid-row: 1/2;
+  grid-column: 1 / 5;
+  padding-top: 15px;
+  padding-left: 15px;
+}
+
+.container-act {
+  grid-row: 2/6;
+  grid-column: 1/2;
+}
+
+.tittle {
+  grid-row: 2/3;
+  grid-column: 2/5;
+}
+
+.peli {
+}
+
+.p01 {
+  grid-row: 3/4;
+  grid-column: 2/5;
+}
+
+.p02 {
+  grid-row: 4/5;
+  grid-column: 2/5;
+}
+
+.p03 {
+  grid-row: 5/6;
+  grid-column: 2/5;
+}
