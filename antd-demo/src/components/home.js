@@ -14,6 +14,7 @@ const Home = (props) => {
 
   const uploadFile = async (event) => {
     const file = event;
+
     const formData = new FormData();
 
     formData.append("file", file);
@@ -48,8 +49,13 @@ const Home = (props) => {
 
   const draggerProps = {
     name: "file",
-    multiple: true,
     action: "https://whois.nomada.cloud/upload",
+    beforeUpload: (file) => {
+      if ((file.type !== "image/png", file.type !== "image/jpeg")) {
+        message.error(`${file.name} is not a png/jpg file`);
+      }
+      return file.type === "image/png" || file.type === "image/jpeg";
+    },
   };
 
   return (
