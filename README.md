@@ -2,14 +2,19 @@
 
 ### Instalación 🔧
 
-npm create-react-app
+npm install
 
-npm install antd
+### Correr el proyecto
+
+yarn start Ó npm start
 
 ## Construido con 🛠️
 
-* [React.js](https://es.reactjs.org/) - El framework web usado
-* [Antd](https://ant.design/components/overview/) - Libreria react
+- [React.js](https://es.reactjs.org/) - El framework web usado
+- [Antd](https://ant.design/components/overview/) - Libreria react
 
-## Modules Added 
-react-router-dom react-router
+## Modules Added
+
+react-router-dom
+
+antd
