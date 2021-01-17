@@ -5,10 +5,11 @@ import "./styles/updata.css";
 import { Button } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { API_KEY, IMAGE_URL } from "../keys";
+import star from "../estrella.svg";
 
 const Updata = (props) => {
   React.useEffect(() => {
-    callingApi();
+    callApi();
   }, []);
 
   const [name, setName] = React.useState("");
@@ -17,15 +18,17 @@ const Updata = (props) => {
   const [movies, setMovies] = React.useState([]);
   const [actorImage, setActorImage] = React.useState("");
 
-  const callingApi = async () => {
+  const callApi = async () => {
     const actorName = props.history.location.state.actorName;
-    const apiDetailsUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&language=es&query=${actorName.replace(
+    console.log(actorName);
+    const apiDetailsUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorName.replace(
       " ",
       "+"
     )}`;
     const response = await fetch(apiDetailsUrl);
     const data = await response.json();
     console.log(data);
+
     setName(data.results[0].name);
     setGender(data.results[0].gender);
     setPopularity(data.results[0].popularity);
@@ -43,31 +46,46 @@ const Updata = (props) => {
         </Button>
       </div>
       <div className="container-act">
-        <img src={actorImage} alt="Actor/Actriz" />
+        <img src={actorImage} alt="Actor/Actriz" width={125} height={188} />
         <h2>{name}</h2>
-        <div>{gender === 1 ? "Mujer" : "Hombre"}</div>
-        <p>{popularity}</p>
+        <div className="gender">{gender === 1 ? "Mujer" : "Hombre"}</div>
+        <h3>Popularidad: {popularity}</h3>
       </div>
-      <div className="tittle">
+      <div className="peli">
         <h1>Películas:</h1>
       </div>
-      {movies.length > 0 ? (
-        movies.map((movie) => {
-          return (
-            <div key={movie.id}>
-              <img
-                src={IMAGE_URL + movie.poster_path}
-                alt=""
-                width={100}
-                height={100}
-              />
-              <div className="title">{movie.title}</div>
-            </div>
-          );
-        })
-      ) : (
-        <p>No tiene peliculas</p>
-      )}
+      <div className="movie-container">
+        {movies.length > 0 ? (
+          movies.map((movie) => {
+            return (
+              <div className="movies" key={movie.id}>
+                <div>
+                  <div className="movie-title">
+                    <h2 className="movie-title">{movie.title}</h2>
+                  </div>
+                  <img
+                    className="img-movie"
+                    src={IMAGE_URL + movie.poster_path}
+                    alt="Peli"
+                    width={100}
+                    height={150}
+                  />
+                </div>
+                <div>
+                  <p>{movie.overview}</p>
+                  <h3>Fecha de estreno: {movie.release_date}</h3>
+                </div>
+                <div className="qualification">
+                  <h4>{movie.vote_average}/10</h4>
+                  <img src={star} alt="star" width={15} height={15} />
+                </div>
+              </div>
+            );
+          })
+        ) : (
+          <p>No tiene peliculas</p>
+        )}
+      </div>
     </div>
   );
 };
