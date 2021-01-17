@@ -20,14 +20,12 @@ const Updata = (props) => {
 
   const callApi = async () => {
     const actorName = props.history.location.state.actorName;
-    console.log(actorName);
     const apiDetailsUrl = `https://api.themoviedb.org/3/search/person?api_key=${API_KEY}&query=${actorName.replace(
       " ",
       "+"
     )}`;
     const response = await fetch(apiDetailsUrl);
     const data = await response.json();
-    console.log(data);
 
     setName(data.results[0].name);
     setGender(data.results[0].gender);

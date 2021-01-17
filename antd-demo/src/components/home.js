@@ -4,52 +4,55 @@ import "./styles/home.css";
 import { Upload, message } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { useHistory } from "react-router-dom";
+import { NOMADA_KEY, UPLOUD_IMAGE_API } from "../keys";
 
 const { Dragger } = Upload;
 
-const Home = (props) => {
-  console.log(props);
-
+const Home = () => {
   const history = useHistory();
 
-  const uploadFile = async (event) => {
-    const file = event;
-
+  const customRequest = async ({ file, onSuccess, onError }) => {
     const formData = new FormData();
 
     formData.append("file", file);
 
-    const uploadApi = "https://whois.nomada.cloud/upload";
-
-    const response = await fetch(uploadApi, {
+    const response = await fetch(UPLOUD_IMAGE_API, {
       method: "POST",
       headers: {
-        Nomada: "ODI0ZTAxMWQtMDBmZi00YzFhLWE2MzEtZTU3ZWU4ZTViZTMx",
+        Nomada: NOMADA_KEY,
       },
       body: formData,
     });
-    return response.json();
+
+    const data = await response.json();
+
+    if (data.actorName) {
+      onSuccess(data);
+    } else {
+      console.log(data);
+      onError(data.error);
+    }
   };
 
   const onChange = async (info) => {
-    const { status } = info.file;
+    const { status, response, error } = info.file;
+    console.log(info);
 
     if (status !== "uploading") {
       console.log(info.file, info.fileList);
     }
     if (status === "done") {
-      message.success(`${info.file.name} file uploaded successfully.`);
-      const res = await uploadFile(info.file.originFileObj);
-      console.log(res);
-      history.push("/resultado", res);
+      message.success(`${info.file.name} subido exitosamente`);
+      history.push("/resultado", response);
     } else if (status === "error") {
-      message.error(`${info.file.name} file upload failed.`);
+      message.error(error);
     }
   };
 
   const draggerProps = {
     name: "file",
-    action: "https://whois.nomada.cloud/upload",
+    customRequest,
+    maxCount: 1,
     beforeUpload: (file) => {
       if ((file.type !== "image/png", file.type !== "image/jpeg")) {
         message.error(`${file.name} is not a png/jpg file`);
